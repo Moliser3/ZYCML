@@ -115,6 +115,12 @@ public:
     UFUNCTION(BlueprintPure, Category = "Character|Rotation")
     bool IsRotating() const { return CurrentRotaType != EActorRotaType::Default; }
 
+    // 设置旋转状态
+    // InRotaType: 要设置的新旋转状态
+    UFUNCTION(BlueprintCallable, Category = "Character|Rotation")
+    void SetRotaType(EActorRotaType InRotaType);
+
+
     // 激活移动状态
     // InMoveState: 要激活的移动状态
     UFUNCTION(BlueprintCallable, Category = "Character|Movement")

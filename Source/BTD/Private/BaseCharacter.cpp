@@ -207,6 +207,18 @@ void ABaseCharacter::ActiveMove(EMoveState InMoveState)
 	}
 }
 
+void ABaseCharacter::SetRotaType(EActorRotaType InRotaType)
+{
+	// 直接设置旋转状态
+	CurrentRotaType = InRotaType;
+
+	// 如果设置为默认状态，清空旋转目标方向
+	if (InRotaType == EActorRotaType::Default)
+	{
+		TargetRotationDirection = FVector::ZeroVector;
+	}
+}
+
 void ABaseCharacter::CheckMoveState(float DeltaTime)
 {
 	// 如果状态为空闲，停止后续逻辑
