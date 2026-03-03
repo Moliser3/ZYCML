@@ -280,3 +280,9 @@ void ABaseCharacter::CheckMoveState(float DeltaTime)
 		}
 	}
 }
+
+FVector ABaseCharacter::GetLocation_Implementation() const
+{
+	// 返回当前角色的位置
+	return GetActorLocation();
+}
