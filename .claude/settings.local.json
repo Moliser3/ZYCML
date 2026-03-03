@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add Source/BTD/Public/BaseCharacter.h)",
+      "Bash(git commit:*)",
+      "Bash(git add Source/BTD/Public/BaseCharacter.h Source/BTD/Private/BaseCharacter.cpp)",
+      "Bash(git add Source/BTD/Private/BaseCharacter.cpp)",
+      "Bash(git add Source/BTD/Public/Interface/IActorProperty.h)",
+      "Bash(Property\"改为\"Interface)",
+      "Bash(Property\"，:*)"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "BaseCharacter.h"
+#include "Interface/IActorProperty.h"
 #include "AI/NavigationSystemBase.h"
 #include "NavigationData.h"
 #include "NavigationSystem.h"
@@ -31,9 +31,9 @@ ABaseCharacter::ABaseCharacter()
 	TargetRotationDirection = FVector::ZeroVector;
 
 	// 初始化不同角度范围的旋转速度（0-45°, 45-90°, 90-135°, 135-180°）
-	AngleRangeRotationSpeeds.Add(0.2f);  // 0-45度：较快
+	AngleRangeRotationSpeeds.Add(0.2f); // 0-45度：较快
 	AngleRangeRotationSpeeds.Add(0.15f); // 45-90度：中等
-	AngleRangeRotationSpeeds.Add(0.1f);  // 90-135度：较慢
+	AngleRangeRotationSpeeds.Add(0.1f); // 90-135度：较慢
 	AngleRangeRotationSpeeds.Add(0.05f); // 135-180度：最慢
 
 	// 初始化角色类型（默认为主角）
@@ -153,10 +153,43 @@ void ABaseCharacter::UpdateRotation()
 	// 如果旋转状态不是默认状态，执行旋转更新
 	if (CurrentRotaType != EActorRotaType::Default)
 	{
+		// 如果是Gazing状态且有有效的目标，实时更新目标方向
+		if (CurrentRotaType == EActorRotaType::Gazing && TargetActor && TargetActor->Implements<UIActorProperty>())
+		{
+			// 获取目标位置
+			FVector TargetLocation = IIActorProperty::Execute_GetLocation(TargetActor);
+			FVector CurrentLocation = GetActorLocation();
+
+			// 计算指向目标的方向
+			FVector DirectionToTarget = (TargetLocation - CurrentLocation);
+			DirectionToTarget.Z = 0.0f; // 只在水平面上旋转
+
+			// 归一化方向
+			if (!DirectionToTarget.IsNormalized())
+			{
+				DirectionToTarget.Normalize();
+			}
+
+			// 如果方向有效，更新目标旋转方向
+			if (!DirectionToTarget.IsZero())
+			{
+				TargetRotationDirection = DirectionToTarget;
+			}
+			else
+			{
+				// 目标与自己在同一位置，停止Gazing
+				CurrentRotaType = EActorRotaType::Default;
+				return;
+			}
+		}
+
 		RotateToTargeDirection(TargetRotationDirection, CurrentRotationSpeed);
 
-		// 检测旋转是否完成
-		CheckRotationCompletion();
+		// 检测旋转是否完成（仅针对非Gazing状态）
+		if (CurrentRotaType != EActorRotaType::Gazing)
+		{
+			CheckRotationCompletion();
+		}
 	}
 }
 
@@ -207,10 +240,38 @@ void ABaseCharacter::ActiveMove(EMoveState InMoveState)
 	}
 }
 
-void ABaseCharacter::SetRotaType(EActorRotaType InRotaType)
+void ABaseCharacter::ActiveRota()
 {
+	if (GetMoveState() == EMoveState::Idle)
+	{
+		CurrentRotaType = EActorRotaType::Default;
+		TargetRotationDirection = FVector::ZeroVector;
+	}
+	else if (GetMoveState() == EMoveState::Walking || GetMoveState() == EMoveState::Running)
+	{
+		CurrentRotaType = EActorRotaType::Rotating;
+	}
+
 	// 设置旋转状态
-	CurrentRotaType = InRotaType;
+}
+
+void ABaseCharacter::ActiveGazing()
+{
+	// 检查TargetActor是否有效
+	if (!TargetActor || !TargetActor->Implements<UIActorProperty>())
+	{
+		return;
+	}
+
+	// 设置旋转状态为Gazing
+	CurrentRotaType = EActorRotaType::Gazing;
+}
+
+void ABaseCharacter::ActiveDefaultRotat()
+{
+	// 设置旋转状态为Default，停止所有旋转行为
+	CurrentRotaType = EActorRotaType::Default;
+	TargetRotationDirection = FVector::ZeroVector;
 }
 
 void ABaseCharacter::CheckMoveState(float DeltaTime)

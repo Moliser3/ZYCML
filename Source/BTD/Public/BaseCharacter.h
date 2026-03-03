@@ -79,6 +79,9 @@ private:
 	// 保存的旋转目标方向（CheckMoveState计算得出）
 	FVector TargetRotationDirection;
 
+	// 保存外部传入的目标属性接口
+	TScriptInterface<IIActorProperty> ExternalTargetProperty;
+
 public:
 	// 移动状态检查的时间间隔（秒），可在蓝图中编辑
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character|Movement")
@@ -95,6 +98,10 @@ public:
 	// 角色类型（主角或NPC），可在蓝图中编辑
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	ECharacterType CharacterType;
+
+	// 目标角色引用，可在蓝图中编辑
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+	ABaseCharacter* TargetActor;
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -117,12 +124,15 @@ public:
 	// 设置旋转状态
 	// InRotaType: 要设置的新旋转状态
 	UFUNCTION(BlueprintCallable, Category = "Character|Rotation")
-	void SetRotaType(EActorRotaType InRotaType);
+	void ActiveRota();
+	
+	// 激活注视：使角色正面永远看向TargetActor的位置
+	UFUNCTION(BlueprintCallable, Category = "Character|Target")
+	void ActiveGazing();
 
 	// 获取当前是否正在旋转
 	UFUNCTION(BlueprintPure, Category = "Character|Rotation")
 	bool IsRotating() const { return CurrentRotaType != EActorRotaType::Default; }
-
 
 	// 激活移动状态
 	// InMoveState: 要激活的移动状态
@@ -132,6 +142,24 @@ public:
 	// 获取当前移动状态
 	UFUNCTION(BlueprintPure, Category = "Character|Movement")
 	EMoveState GetMoveState() const { return CurrentMoveState; }
+
+	// 设置目标角色
+	// InTargetActor: 要设置的目标BaseCharacter
+	UFUNCTION(BlueprintCallable, Category = "Character|Target")
+	void SetTargetActor(ABaseCharacter* InTargetActor) { TargetActor = InTargetActor; }
+
+	// 获取目标角色
+	UFUNCTION(BlueprintPure, Category = "Character|Target")
+	ABaseCharacter* GetTargetActor() const { return TargetActor; }
+
+
+
+	// 启用默认旋转状态：停止所有旋转行为
+	UFUNCTION(BlueprintCallable, Category = "Character|Target")
+	void ActiveDefaultRotat();
+
+	// 实现 IIActorProperty 接口：返回当前角色的世界坐标位置
+	virtual FVector GetLocation_Implementation() const override;
 
 private:
 	// 更新旋转状态（根据CurrentRotaType判断是否执行旋转）
