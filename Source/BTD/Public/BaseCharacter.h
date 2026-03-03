@@ -89,6 +89,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character|Rotation")
     TArray<float> AngleRangeRotationSpeeds;
 
+    // 角色类型（主角或NPC），可在蓝图中编辑
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    ECharacterType CharacterType;
+
     virtual void Tick(float DeltaTime) override;
 
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
