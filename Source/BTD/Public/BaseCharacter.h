@@ -5,46 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/IActorProperty.h"
+#include "GameEnums.h"
+#include "CharacterDataStruct.h"
 #include "BaseCharacter.generated.h"
-
-// 角色旋转类型枚举
-UENUM(BlueprintType)
-enum class EActorRotaType : uint8
-{
-	// 默认状态
-	Default = 0 UMETA(DisplayName = "Default"),
-
-	// 旋转状态
-	Rotating = 1 UMETA(DisplayName = "Rotating"),
-
-	// 注视状态
-	Gazing = 2 UMETA(DisplayName = "Gazing")
-};
-
-// 角色移动状态枚举
-UENUM(BlueprintType)
-enum class EMoveState : uint8
-{
-	// 空闲状态
-	Idle = 0 UMETA(DisplayName = "Idle"),
-
-	// 行走状态
-	Walking = 1 UMETA(DisplayName = "Walking"),
-
-	// 奔跑状态
-	Running = 2 UMETA(DisplayName = "Running")
-};
-
-// 角色类型枚举
-UENUM(BlueprintType)
-enum class ECharacterType : uint8
-{
-	// 主角
-	Player = 0 UMETA(DisplayName = "Player"),
-
-	// NPC
-	NPC = 1 UMETA(DisplayName = "NPC")
-};
 
 UCLASS()
 class BTD_API ABaseCharacter : public ACharacter, public IIActorProperty
@@ -69,6 +32,9 @@ private:
 
 	// 角色当前移动状态
 	EMoveState CurrentMoveState;
+
+	// 当前移动速度
+	float CurrentMoveSpeed;
 
 	// 移动状态检查计时器
 	float MoveStateCheckTimer;
@@ -99,6 +65,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	ECharacterType CharacterType;
 
+	// 角色数据（血量、能量、移动速度），可在蓝图中编辑
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character|Data")
+	FCharacterData CharacterData;
+
 	// 目标角色引用，可在蓝图中编辑
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	ABaseCharacter* TargetActor;
@@ -121,11 +91,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Character|Rotation")
 	EActorRotaType GetRotaType() const { return CurrentRotaType; }
 
-	// 设置旋转状态
-	// InRotaType: 要设置的新旋转状态
-	UFUNCTION(BlueprintCallable, Category = "Character|Rotation")
-	void ActiveRota();
-	
 	// 激活注视：使角色正面永远看向TargetActor的位置
 	UFUNCTION(BlueprintCallable, Category = "Character|Target")
 	void ActiveGazing();
@@ -134,10 +99,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Character|Rotation")
 	bool IsRotating() const { return CurrentRotaType != EActorRotaType::Default; }
 
-	// 激活移动状态
-	// InMoveState: 要激活的移动状态
+	// 激活移动状态（根据当前移动状态执行对应逻辑）
 	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
-	void ActiveMove(EMoveState InMoveState);
+	void BeginActiveMove();
+
+	// 激活奔跑
+	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
+	void ActivateRunning();
+
+	// 激活步行
+	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
+	void ActivateWalking();
 
 	// 获取当前移动状态
 	UFUNCTION(BlueprintPure, Category = "Character|Movement")
@@ -162,6 +134,12 @@ public:
 	virtual FVector GetLocation_Implementation() const override;
 
 private:
+	// 切换移动状态并将CharacterData中对应的速度应用到移动组件
+	void SetMoveState(EMoveState InMoveState);
+
+	// 根据移动状态切换旋转模式
+	void ActiveRota();
+
 	// 更新旋转状态（根据CurrentRotaType判断是否执行旋转）
 	void UpdateRotation();
 

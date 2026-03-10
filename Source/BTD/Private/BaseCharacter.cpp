@@ -5,6 +5,7 @@
 #include "AI/NavigationSystemBase.h"
 #include "NavigationData.h"
 #include "NavigationSystem.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 ABaseCharacter::ABaseCharacter()
@@ -15,7 +16,10 @@ ABaseCharacter::ABaseCharacter()
 	TargetRotatePosition = FVector::ZeroVector;
 
 	// 初始化移动状态
-	CurrentMoveState = EMoveState::Idle;
+	CurrentMoveState = EMoveState::Walking;
+
+	// 初始化当前移动速度
+	CurrentMoveSpeed = 0.f;
 
 	// 初始化移动状态检查计时器
 	MoveStateCheckTimer = 0.0f;
@@ -44,6 +48,9 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// 设置起始移动状态为行走
+	SetMoveState(EMoveState::Walking);
 }
 
 
@@ -206,9 +213,6 @@ void ABaseCharacter::CheckRotationCompletion()
 	CurrentForward.Z = 0.0f;
 	CurrentForward.Normalize();
 
-	// 输出旋转目标方向（基于CheckMoveState时保存的方向）
-	UE_LOG(LogTemp, Display, TEXT("旋转目标方向 - DirectionToTarget: (X=%.2f, Y=%.2f, Z=%.2f)"), TargetRotationDirection.X, TargetRotationDirection.Y, TargetRotationDirection.Z);
-
 	// 计算两个向量之间的夹角
 	float DotProduct = FVector::DotProduct(CurrentForward, TargetRotationDirection);
 	// 夹角值范围在-1到1之间，Clamp确保不会有浮点误差导致的异常
@@ -222,37 +226,72 @@ void ABaseCharacter::CheckRotationCompletion()
 	}
 }
 
-void ABaseCharacter::ActiveMove(EMoveState InMoveState)
+void ABaseCharacter::BeginActiveMove()
 {
-	// 激活角色的移动状态
-	CurrentMoveState = InMoveState;
-
-	// 当激活为空闲状态时，重置相关参数
-	if (InMoveState == EMoveState::Idle)
+	// 将当前移动速度赋值给移动组件
+	GetCharacterMovement()->MaxWalkSpeed = CurrentMoveSpeed;
+	switch (CurrentMoveState)
 	{
-		MoveStateCheckTimer = 0.0f;
-
-		// 只有当不在旋转状态时，才重置目标旋转方向
-		if (CurrentRotaType == EActorRotaType::Default)
+	case EMoveState::Walking:
+		break;
+	case EMoveState::Running:
+		if (CurrentRotaType == EActorRotaType::Gazing && CurrentMoveState == EMoveState::Walking)
 		{
-			TargetRotationDirection = FVector::ZeroVector;
+			break;
 		}
+		ActiveRota();
+		break;
+	default: ;
 	}
+
+	// // 当激活为空闲状态时，重置相关参数
+	// if (InMoveState == EMoveState::Idle)
+	// {
+	// 	MoveStateCheckTimer = 0.0f;
+	//
+	// 	// 只有当不在旋转状态时，才重置目标旋转方向
+	// 	if (CurrentRotaType == EActorRotaType::Default)
+	// 	{
+	// 		TargetRotationDirection = FVector::ZeroVector;
+	// 	}
+	// }
+}
+
+void ABaseCharacter::SetMoveState(EMoveState InMoveState)
+{
+	// 切换移动状态枚举
+	//ActiveMove(InMoveState);
+
+	// 根据状态赋值当前移动速度
+	switch (InMoveState)
+	{
+	case EMoveState::Walking:
+		CurrentMoveSpeed = CharacterData.WalkSpeed;
+		CurrentMoveState = EMoveState::Walking;
+		break;
+	case EMoveState::Running:
+		CurrentMoveSpeed = CharacterData.RunSpeed;
+		CurrentMoveState = EMoveState::Running;
+		break;
+	default:
+		break;
+	}
+}
+
+
+void ABaseCharacter::ActivateRunning()
+{
+	SetMoveState(EMoveState::Running);
+}
+
+void ABaseCharacter::ActivateWalking()
+{
+	SetMoveState(EMoveState::Walking);
 }
 
 void ABaseCharacter::ActiveRota()
 {
-	if (GetMoveState() == EMoveState::Idle)
-	{
-		CurrentRotaType = EActorRotaType::Default;
-		TargetRotationDirection = FVector::ZeroVector;
-	}
-	else if (GetMoveState() == EMoveState::Walking || GetMoveState() == EMoveState::Running)
-	{
-		CurrentRotaType = EActorRotaType::Rotating;
-	}
-
-	// 设置旋转状态
+	CurrentRotaType = EActorRotaType::Rotating;
 }
 
 void ABaseCharacter::ActiveGazing()
@@ -267,6 +306,7 @@ void ABaseCharacter::ActiveGazing()
 	CurrentRotaType = EActorRotaType::Gazing;
 }
 
+//是否保留？
 void ABaseCharacter::ActiveDefaultRotat()
 {
 	// 设置旋转状态为Default，停止所有旋转行为
@@ -276,12 +316,6 @@ void ABaseCharacter::ActiveDefaultRotat()
 
 void ABaseCharacter::CheckMoveState(float DeltaTime)
 {
-	// 如果状态为空闲，停止后续逻辑
-	if (CurrentMoveState == EMoveState::Idle)
-	{
-		return;
-	}
-
 	// 累计检查计时器
 	MoveStateCheckTimer += DeltaTime;
 
