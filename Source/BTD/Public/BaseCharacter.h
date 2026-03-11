@@ -9,6 +9,9 @@
 #include "CharacterDataStruct.h"
 #include "BaseCharacter.generated.h"
 
+// 行为状态变化委托（当前行为, 当前移动状态）
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnBehaviorChanged, ECharacterBehavior, CurrentBehavior, EMoveState, CurrentMoveState);
+
 UCLASS()
 class BTD_API ABaseCharacter : public ACharacter, public IIActorProperty
 {
@@ -75,6 +78,10 @@ public:
 	// 目标角色引用，可在蓝图中编辑
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
 	ABaseCharacter* TargetActor;
+
+	// 行为状态变化时广播
+	UPROPERTY(BlueprintAssignable, Category = "Character|Behavior")
+	FOnBehaviorChanged OnBehaviorChanged;
 
 	virtual void Tick(float DeltaTime) override;
 
@@ -147,6 +154,9 @@ public:
 private:
 	// 切换移动状态并将CharacterData中对应的速度应用到移动组件
 	void SetMoveState(EMoveState InMoveState);
+
+	// 设置行为状态并广播变化
+	void SetBehavior(ECharacterBehavior NewBehavior);
 
 	// 根据移动状态切换旋转模式
 	void ActiveRota();

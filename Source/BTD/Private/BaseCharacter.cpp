@@ -229,7 +229,7 @@ void ABaseCharacter::CheckRotationCompletion()
 void ABaseCharacter::BeginActiveMove()
 {
 	// 设置行为状态为移动
-	CurrentBehavior = ECharacterBehavior::Moving;
+	SetBehavior(ECharacterBehavior::Moving);
 
 	// 将当前移动速度赋值给移动组件
 	GetCharacterMovement()->MaxWalkSpeed = CurrentMoveSpeed;
@@ -350,7 +350,7 @@ void ABaseCharacter::CheckMoveState(float DeltaTime)
 		if (!MoveDirection.IsNormalized())
 		{
 			return;
-		}	
+		}
 
 		// 获取当前角色的Forward向量（仅水平面）
 		FVector CurrentForward = GetActorForwardVector();
@@ -381,7 +381,14 @@ void ABaseCharacter::CheckMoveState(float DeltaTime)
 void ABaseCharacter::OnMoveEnd()
 {
 	// 重置行为状态为闲置
-	CurrentBehavior = ECharacterBehavior::Idle;
+	SetBehavior(ECharacterBehavior::Idle);
+}
+
+void ABaseCharacter::SetBehavior(ECharacterBehavior NewBehavior)
+{
+	if (CurrentBehavior != NewBehavior)
+		CurrentBehavior = NewBehavior;
+	OnBehaviorChanged.Broadcast(CurrentBehavior, CurrentMoveState);
 }
 
 FVector ABaseCharacter::GetLocation_Implementation() const
