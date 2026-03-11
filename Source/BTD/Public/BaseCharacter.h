@@ -45,6 +45,9 @@ private:
 	// 保存的旋转目标方向（CheckMoveState计算得出）
 	FVector TargetRotationDirection;
 
+	// 角色当前行为状态
+	ECharacterBehavior CurrentBehavior;
+
 	// 保存外部传入的目标属性接口
 	TScriptInterface<IIActorProperty> ExternalTargetProperty;
 
@@ -103,6 +106,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
 	void BeginActiveMove();
 
+	// 移动结束回调
+	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
+	void OnMoveEnd();
+
 	// 激活奔跑
 	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
 	void ActivateRunning();
@@ -114,6 +121,10 @@ public:
 	// 获取当前移动状态
 	UFUNCTION(BlueprintPure, Category = "Character|Movement")
 	EMoveState GetMoveState() const { return CurrentMoveState; }
+
+	// 获取当前行为状态
+	UFUNCTION(BlueprintPure, Category = "Character|Behavior")
+	ECharacterBehavior GetBehavior() const { return CurrentBehavior; }
 
 	// 设置目标角色
 	// InTargetActor: 要设置的目标BaseCharacter
