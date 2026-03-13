@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/IActorProperty.h"
+#include "Interface/IHolderAttribute.h"
 #include "GameEnums.h"
 #include "CharacterDataStruct.h"
 #include "BaseCharacter.generated.h"
@@ -13,19 +14,22 @@
 // 行为状态变化委托（当前行为, 当前移动状态）
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnBehaviorChanged, ECharacterBehavior, CurrentBehavior, EMoveState, CurrentMoveState);
 
+class ActorRotation;
+
 UCLASS()
-class BTD_API ABaseCharacter : public ACharacter, public IIActorProperty
+class BTD_API ABaseCharacter : public ACharacter, public IIActorProperty, public IIHolderAttribute
 {
     GENERATED_BODY()
 
 public:
     ABaseCharacter();
+    virtual ~ABaseCharacter() override;
 
 protected:
     virtual void BeginPlay() override;
 
 private:
-    //TUniquePtr<ActorRotation> ActorRotationModel;
+    ActorRotation* ActorRotationModule;
 
     // 角色当前旋转类型状态
     EActorRotaType CurrentRotaType;
@@ -90,13 +94,9 @@ public:
 
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-    // 旋转角色使其面向指定方向，围绕Z轴进行最短弧度旋转
-    // TargetDirection: 目标方向向量
-    // InRotationSpeed: 旋转速度（0.0 - 1.0，用于Lerp插值）
-    void RotateToTargeDirection(const FVector& TargetDirection, float InRotationSpeed = 0.1f);
+ 
 
-    // 激活旋转，启动角色向指定方向的旋转过程（仅C++使用）
-    // InTargetDirection: 旋转的目标方向向量
+
     // 旋转速度使用蓝图可编辑的 RotationSpeed 变量
     void ActivateRotation(const FVector& InTargetDirection);
 
@@ -146,8 +146,29 @@ public:
     ABaseCharacter* GetTargetActor() const { return TargetActor; }
 
 
-    // 实现 IIActorProperty 接口：返回当前角色的世界坐标位置
+    // 实现 IIActorProperty / IIHolderAttribute 接口：返回当前角色的世界坐标位置
     virtual FVector GetLocation_Implementation() const override;
+
+    // 实现 IIHolderAttribute 接口：返回当前角色的正方向向量
+    virtual FVector GetForwardVector_Implementation() const override;
+
+    // 实现 IIHolderAttribute 接口：返回目标角色的位置
+    virtual FVector GetTargetLocation_Implementation() const override;
+
+    // 实现 IIHolderAttribute 接口：返回当前角色的旋转角度
+    virtual FRotator GetRotation_Implementation() const override;
+
+    // 实现 IIHolderAttribute 接口：设置当前角色的旋转角度
+    virtual void SetHolderRotation_Implementation(FRotator NewRotation) override;
+
+    // 实现 IIHolderAttribute 接口：返回当前角色的旋转类型状态
+    virtual EActorRotaType GetCurrentRotaType_Implementation() const override;
+
+    // 实现 IIHolderAttribute 接口：设置当前角色的旋转类型状态
+    virtual void SetCurrentRotaType_Implementation(EActorRotaType NewRotaType) override;
+
+    // 实现 IIHolderAttribute 接口：返回当前角色的目标旋转方向
+    virtual FVector GetTargetRotationDirection_Implementation() const override;
 
 private:
     // 切换移动状态并将CharacterData中对应的速度应用到移动组件
@@ -158,12 +179,6 @@ private:
 
     // 根据移动状态切换旋转模式
     void ActiveRota();
-
-    // 更新旋转状态（根据CurrentRotaType判断是否执行旋转）
-    void UpdateRotation();
-
-    // 检测旋转是否完成（forward向量是否已指向目标位置）
-    void CheckRotationCompletion();
 
     // 检查移动状态，根据移动方向调整角色朝向
     void CheckMoveState(float DeltaTime);

@@ -1,10 +1,116 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AFirolyh_002Easm_002Fl_003AC_0021_003FUsers_003FMoliser3_003FAppData_003FLocal_003FTemp_003FSandboxFiles_003FPyxyhej_003FFirolyh_002Easm/@EntryIndexedValue">ForceIncluded</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=98daadc9_002Dd4cb_002D37e6_002D95df_002D4bd79ac40d9b_0023UE5/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=88c68439_002D4a52_002D3067_002D9ea7_002D9f95bedae4d8_0023BTD/@EntryIndexedValue">True</s:Boolean>
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=b2a03dd2_002Daa18_002D363d_002D8a09_002Da8b3989afd45_0023VisionOS_002EAutomation/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=8eb99213_002Df664_002D3cef_002D91b6_002D947f271f43ee_0023Android_002EAutomation/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=64b660bd_002D8444_002D3ef5_002Db143_002Ddd686067b3f5_0023Apple_002EAutomation/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=1c430af6_002D9abf_002D3736_002Dbad9_002D137622f07879_0023AutomationUtils_002EAutomation/@EntryIndexedValue">True</s:Boolean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=fb46e137_002D40ff_002D3e4b_002Dbd58_002D0a6759165461_0023BuildGraph_002EAutomation/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=3743920f_002Dc46c_002D39b2_002D9d8f_002D8c418ba5a312_0023CookedEditor_002EAutomation/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=e7cb8827_002Da820_002D34ea_002Da5bc_002Dd15ff3cd3f7f_0023CrowdinLocalization_002EAutomation/@EntryIndexedValue">True</s:Boolean>
@@ -52,4 +158,6 @@
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=14356579_002Df7c7_002D345a_002Dae41_002Df1d305215572_0023BTDModuleRules/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cb37a970_002Dc807_002D3675_002D9e87_002Daa56365dd9a5_0023MarketplaceRules/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=abaf6e47_002D9f17_002D3a68_002D8bdf_002Dbfe339ae47ab_0023UE5ProgramRules/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=4dd83e31_002D0b24_002D3a40_002D9e48_002Df266845d3aa9_0023UE5Rules/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=4dd83e31_002D0b24_002D3a40_002D9e48_002Df266845d3aa9_0023UE5Rules/@EntryIndexedValue">True</s:Boolean>
+	
+	</wpf:ResourceDictionary>

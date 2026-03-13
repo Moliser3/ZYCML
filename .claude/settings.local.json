@@ -9,7 +9,8 @@
       "Bash(Property\"改为\"Interface)",
       "Bash(Property\"，:*)",
       "Bash(git add Source/BTD/Private/BaseCharacter.cpp Source/BTD/Public/BaseCharacter.h)",
-      "Bash(git add Source/BTD/Private/BaseCharacter.cpp Source/BTD/Public/BaseCharacter.h Content/CoreSystem/Animation/)"
+      "Bash(git add Source/BTD/Private/BaseCharacter.cpp Source/BTD/Public/BaseCharacter.h Content/CoreSystem/Animation/)",
+      "Bash(git -C \"h:/Github\" log --all --full-history -- \"Source/BTD/Public/IHoldersAttribute.h\" \"Source/BTD/Private/IHoldersAttribute.cpp\")"
     ]
   }
 }
