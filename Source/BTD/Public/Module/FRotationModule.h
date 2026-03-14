@@ -1,26 +1,23 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Interface/IHolderAttribute.h"
-
 enum class EActorRotaType : uint8;
-///**
-// *
-// */
-class BTD_API ActorRotation
+/**
+ * 
+ */
+class BTD_API FRotationModule
 {
 public:
-	explicit ActorRotation(IIHolderAttribute* InHolder);
-
-	~ActorRotation();
+	explicit FRotationModule(IIHolderAttribute* InHolder);
+	~FRotationModule();
 
 	// 更新旋转状态（根据CurrentRotaType判断是否执行旋转）
-	void RotationTick();
+	void RotationModuleTick();
 	//在Begin中进行模块初始化
-	void InitModel(TArray<float> InAngleRangeRotationSpeeds);
-
+	void InitRotationModel(const TArray<float>& InAngleRangeRotationSpeeds);
 private:
 	// 持有者接口，用于获取位置等信息
 	IIHolderAttribute* HolderAttribute;
@@ -34,14 +31,11 @@ private:
 	// 旋转完成的角度阈值（度数）
 	const float RotationCompletionThreshold = 1.0f;
 
-	void CheckRotationCompletion();
+	void CheckRotationCompletion() const;
 	// 旋转角色使其面向指定方向，围绕Z轴进行最短弧度旋转
 	// TargetDirection: 目标方向向量
 	// InRotationSpeed: 旋转速度（0.0 - 1.0，用于Lerp插值）
 	void RotateToTargetDirection(const FVector& TargetDirection);
 
-	// 激活旋转，启动角色向指定方向的旋转过程（仅C++使用）
-	// InTargetDirection: 旋转的目标方向向量
-	// 旋转速度使用蓝图可编辑的 RotationSpeed 变量
-	void ActivateRotation(const FVector& InTargetDirection);
+
 };

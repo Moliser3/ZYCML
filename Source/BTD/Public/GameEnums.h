@@ -50,7 +50,38 @@ enum class ECharacterBehavior : uint8
 	Hit = 4 UMETA(DisplayName = "Hit"),
 
 	// 防御
-	Defense = 5 UMETA(DisplayName = "Defense")
+	Defense = 5 UMETA(DisplayName = "Defense"),
+
+	// 攻击
+	Attack = 6 UMETA(DisplayName = "Attack")
+};
+
+// 角色状态枚举
+UENUM(BlueprintType)
+enum class ECharacterState : uint8
+{
+	// 闲置
+	Idle = 0 UMETA(DisplayName = "Idle"),
+
+	// 战斗
+	Combat = 1 UMETA(DisplayName = "Combat")
+};
+
+// 战斗类型枚举
+UENUM(BlueprintType)
+enum class ECombatType : uint8
+{
+	// 拳击
+	Boxing = 0 UMETA(DisplayName = "Boxing"),
+
+	// 单手剑
+	OneHandedSword = 1 UMETA(DisplayName = "OneHandedSword"),
+
+	// 单手刀
+	OneHandedSaber = 2 UMETA(DisplayName = "OneHandedSaber"),
+
+	// 长棍
+	LongStaff = 3 UMETA(DisplayName = "LongStaff")
 };
 
 // 角色类型枚举

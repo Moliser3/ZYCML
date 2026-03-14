@@ -1,27 +1,25 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ActorRotation.h"
-
+#include "Module/FRotationModule.h"
 #include "GameEnums.h"
 
-ActorRotation::ActorRotation(IIHolderAttribute* InHolder): HolderAttribute(InHolder)
+FRotationModule::FRotationModule(IIHolderAttribute* InHolder): HolderAttribute(InHolder)
 {
-	//TargetRotationDirection = FVector(0.f, 0.f, 0.f);
+	TargetRotationDirection = FVector::Zero();
 }
 
-ActorRotation::~ActorRotation()
+FRotationModule::~FRotationModule()
 {
 }
 
-void ActorRotation::InitModel(TArray<float> InAngleRangeRotationSpeeds)
+void FRotationModule::InitRotationModel(const TArray<float>& InAngleRangeRotationSpeeds)
 {
 	AngleRangeRotationSpeeds.Empty();
 	AngleRangeRotationSpeeds = InAngleRangeRotationSpeeds;
 }
 
-/*Tick Module*/
-void ActorRotation::RotationTick()
+void FRotationModule::RotationModuleTick()
 {
 	const FVector TargetLocation = HolderAttribute->GetTargetLocation_Implementation();
 	const FVector CurrentLocation = HolderAttribute->GetLocation_Implementation();
@@ -54,10 +52,8 @@ void ActorRotation::RotationTick()
 				return;
 			}
 		}
-		else if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Rotating)
-		{
-		}
 
+		//UE_LOG(LogTemp, Log, TEXT("CurrentRotaType: %s"), *UEnum::GetValueAsString(HolderAttribute->GetCurrentRotaType_Implementation()));
 		RotateToTargetDirection(TargetRotationDirection);
 
 		// 检测旋转是否完成（仅针对非Gazing状态）
@@ -69,7 +65,7 @@ void ActorRotation::RotationTick()
 }
 
 
-void ActorRotation::CheckRotationCompletion()
+void FRotationModule::CheckRotationCompletion() const
 {
 	// 如果无法计算有效方向，则不进行检测
 	if (!TargetRotationDirection.IsNormalized())
@@ -87,7 +83,6 @@ void ActorRotation::CheckRotationCompletion()
 	// 夹角值范围在-1到1之间，Clamp确保不会有浮点误差导致的异常
 	DotProduct = FMath::Clamp(DotProduct, -1.0f, 1.0f);
 	const float AngleDifference = FMath::Acos(DotProduct) * (180.0f / PI);
-
 	// 如果夹角小于阈值，说明Forward向量已经指向目标方向，停止旋转
 	if (AngleDifference < RotationCompletionThreshold)
 	{
@@ -95,11 +90,11 @@ void ActorRotation::CheckRotationCompletion()
 	}
 }
 
-void ActorRotation::RotateToTargetDirection(const FVector& TargetDirection)
+void FRotationModule::RotateToTargetDirection(const FVector& TargetDirection)
 {
 	// 规范化目标方向向量（仅使用X、Y平面，忽略Z轴）
-	FVector NormalizedDirection = TargetDirection * FVector(1.f, 1.f, 0.f);
-	//NormalizedDirection.Z = 0.0f; // 清零Z轴分量，确保只在水平面上旋转
+	FVector NormalizedDirection = TargetDirection;
+	NormalizedDirection.Z = 0.0f; // 清零Z轴分量，确保只在水平面上旋转
 	NormalizedDirection.Normalize(); // 归一化方向向量
 
 	// 处理零向量的情况
@@ -110,8 +105,8 @@ void ActorRotation::RotateToTargetDirection(const FVector& TargetDirection)
 	}
 
 	// 获取当前Forward向量
-	FVector CurrentForward = HolderAttribute->GetForwardVector_Implementation() * FVector(1.f, 1.f, 0.f);
-	//CurrentForward.Z = 0.0f;
+	FVector CurrentForward = HolderAttribute->GetForwardVector_Implementation();
+	CurrentForward.Z = 0.0f;
 	CurrentForward.Normalize();
 
 	// 计算当前Forward和目标方向的夹角
@@ -121,6 +116,7 @@ void ActorRotation::RotateToTargetDirection(const FVector& TargetDirection)
 
 	// 根据夹角范围选择对应的旋转速度
 	float FinalRotationSpeed = 0.25f;
+
 	if (AngleRangeRotationSpeeds.Num() >= 4)
 	{
 		if (AngleDifference < 45.0f)
@@ -160,19 +156,13 @@ void ActorRotation::RotateToTargetDirection(const FVector& TargetDirection)
 	{
 		YawDelta += 360.0f;
 	}
-	
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("FinalRotationSpeed: %f"), FinalRotationSpeed));
+
 	// 使用Lerp进行平滑旋转
 	const float NewYaw = FMath::Lerp(CurrentYaw, CurrentYaw + YawDelta, FinalRotationSpeed);
 
 	// 应用新的旋转
 	FRotator NewRotation = CurrentRotation;
 	NewRotation.Yaw = NewYaw;
+
 	HolderAttribute->SetHolderRotation_Implementation(NewRotation);
 }
-
-/*
-void ActorRotation::ActivateRotation(const FVector& InTargetDirection)
-{
-}
-*/

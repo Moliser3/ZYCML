@@ -23,7 +23,6 @@ class BTD_API IIHolderAttribute
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-
 	// 获取持有者的位置
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	FVector GetLocation() const;
@@ -55,4 +54,12 @@ public:
 	// 获取持有者的目标旋转方向
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	FVector GetTargetRotationDirection() const;
+
+	// 设置持有者的目标旋转方向
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	void SetTargetRotationDirection(const FVector& NewDirection);
+
+	// 获取持有者的行为状态
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	ECharacterBehavior GetBehaviorState() const;
 };
