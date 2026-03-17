@@ -62,4 +62,12 @@ public:
 	// 获取持有者的行为状态
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	ECharacterBehavior GetBehaviorState() const;
+
+	// 获取持有者的当前生命值
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	float GetHealth() const;
+
+	// 设置持有者的生命值
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	void SetHealth(float NewHealth);
 };

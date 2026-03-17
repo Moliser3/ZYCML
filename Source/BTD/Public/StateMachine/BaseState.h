@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Interface/IState.h"
+class IIHolderFunction;
 class IIHolderAttribute;
 /**
  * 
@@ -11,9 +12,10 @@ class IIHolderAttribute;
 class BTD_API BaseState : public IState
 {
 public:
-    explicit BaseState(IIHolderAttribute* InHolder);
-    virtual ~BaseState() override;
+	explicit BaseState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF);
+	virtual ~BaseState() override;
 
 protected:
-    IIHolderAttribute* InHolderAttribute;
+	IIHolderAttribute* InHolderAttribute;
+	IIHolderFunction* InHolderFunction;
 };

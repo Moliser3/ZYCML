@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseStateMachine.h"
 
 /**
- * 
+ * 武器状态机
  */
-class BTD_API FWeaponStateMachine
+class BTD_API FWeaponStateMachine : public BaseStateMachine
 {
 public:
-	FWeaponStateMachine();
+	explicit FWeaponStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF);
 	~FWeaponStateMachine();
 };

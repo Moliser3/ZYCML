@@ -2,11 +2,59 @@
 
 
 #include "StateMachine/FWeaponState.h"
+#include "Interface/IHolderAttribute.h"
 
-FWeaponState::FWeaponState()
+FWeaponState::FWeaponState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatType InputState)
+	: BaseState(InHolderA, InHolderF)
 {
+	CurrentState = InputState;
 }
 
 FWeaponState::~FWeaponState()
 {
+}
+
+void FWeaponState::OnEnter()
+{
+	switch (CurrentState)
+	{
+	case ECombatType::Boxing:
+		break;
+	case ECombatType::OneHandedSword:
+		break;
+	case ECombatType::OneHandedSaber:
+		break;
+	case ECombatType::LongStaff:
+		break;
+	}
+}
+
+void FWeaponState::OnUpdate(float DeltaTime)
+{
+	switch (CurrentState)
+	{
+	case ECombatType::Boxing:
+		break;
+	case ECombatType::OneHandedSword:
+		break;
+	case ECombatType::OneHandedSaber:
+		break;
+	case ECombatType::LongStaff:
+		break;
+	}
+}
+
+void FWeaponState::OnExit()
+{
+	switch (CurrentState)
+	{
+	case ECombatType::Boxing:
+		break;
+	case ECombatType::OneHandedSword:
+		break;
+	case ECombatType::OneHandedSaber:
+		break;
+	case ECombatType::LongStaff:
+		break;
+	}
 }

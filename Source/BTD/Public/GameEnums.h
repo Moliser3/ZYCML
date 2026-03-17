@@ -9,14 +9,11 @@
 UENUM(BlueprintType)
 enum class EActorRotaType : uint8
 {
-	// 默认状态
-	Default = 0 UMETA(DisplayName = "Default"),
-
 	// 旋转状态
-	Rotating = 1 UMETA(DisplayName = "Rotating"),
+	Rotating = 0 UMETA(DisplayName = "Rotating"),
 
 	// 注视状态
-	Gazing = 2 UMETA(DisplayName = "Gazing")
+	Gazing = 1 UMETA(DisplayName = "Gazing")
 };
 
 // 角色移动状态枚举
@@ -58,7 +55,7 @@ enum class ECharacterBehavior : uint8
 
 // 角色状态枚举
 UENUM(BlueprintType)
-enum class ECharacterState : uint8
+enum class ECombatState : uint8
 {
 	// 闲置
 	Idle = 0 UMETA(DisplayName = "Idle"),

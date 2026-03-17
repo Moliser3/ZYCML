@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseStateMachine.h"
 
 /**
- * 
+ * 行为状态机
  */
-class BTD_API FActionsStateMachine
+class BTD_API FActionsStateMachine : public BaseStateMachine
 {
 public:
-	FActionsStateMachine();
+	explicit FActionsStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF);
 	~FActionsStateMachine();
 };

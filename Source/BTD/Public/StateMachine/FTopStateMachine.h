@@ -11,6 +11,6 @@
 class BTD_API FTopStateMachine : public BaseStateMachine
 {
 public:
-   explicit FTopStateMachine(IIHolderAttribute* InHolder);
+   explicit FTopStateMachine(IIHolderAttribute* InHolderA,IIHolderFunction* InHolderF);
     ~FTopStateMachine();
 };

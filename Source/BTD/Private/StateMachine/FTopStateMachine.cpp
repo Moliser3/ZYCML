@@ -3,12 +3,12 @@
 
 #include "StateMachine/FTopStateMachine.h"
 
-FTopStateMachine::FTopStateMachine(IIHolderAttribute* InHolder) : BaseStateMachine(InHolder)
+#include "Interface/IHolderFunction.h"
+
+FTopStateMachine::FTopStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF) : BaseStateMachine(InHolderA, InHolderF)
 {
-    
 }
 
 FTopStateMachine::~FTopStateMachine()
 {
-    
 }

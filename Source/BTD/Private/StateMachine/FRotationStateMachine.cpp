@@ -2,8 +2,10 @@
 
 
 #include "StateMachine/FRotationStateMachine.h"
+#include "Interface/IHolderFunction.h"
 
-FRotationStateMachine::FRotationStateMachine()
+FRotationStateMachine::FRotationStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF)
+	: BaseStateMachine(InHolderA, InHolderF)
 {
 }
 

@@ -2,8 +2,10 @@
 
 
 #include "StateMachine/FCombatStateMachine.h"
+#include "Interface/IHolderFunction.h"
 
-FCombatStateMachine::FCombatStateMachine()
+FCombatStateMachine::FCombatStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF)
+	: BaseStateMachine(InHolderA, InHolderF)
 {
 }
 

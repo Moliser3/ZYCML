@@ -2,8 +2,10 @@
 
 
 #include "StateMachine/FWeaponStateMachine.h"
+#include "Interface/IHolderFunction.h"
 
-FWeaponStateMachine::FWeaponStateMachine()
+FWeaponStateMachine::FWeaponStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF)
+	: BaseStateMachine(InHolderA, InHolderF)
 {
 }
 

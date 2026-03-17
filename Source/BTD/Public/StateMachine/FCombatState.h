@@ -3,13 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseState.h"
+#include "Interface/IHolderFunction.h"
 
 /**
- * 
+ * 角色状态节点，对应 ECombatState 枚举
  */
-class BTD_API FCombatState
+class BTD_API FCombatState : public BaseState
 {
 public:
-	FCombatState();
-	~FCombatState();
+	explicit FCombatState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatState InputState);
+
+	virtual ~FCombatState() override;
+	virtual void OnEnter() override;
+	virtual void OnUpdate(float DeltaTime) override;
+	virtual void OnExit() override;
+
+	ECombatState CurrentState;
 };

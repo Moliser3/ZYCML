@@ -2,8 +2,10 @@
 
 
 #include "StateMachine/FMovingStateMachine.h"
+#include "Interface/IHolderFunction.h"
 
-FMovingStateMachine::FMovingStateMachine()
+FMovingStateMachine::FMovingStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF)
+	: BaseStateMachine(InHolderA, InHolderF)
 {
 }
 

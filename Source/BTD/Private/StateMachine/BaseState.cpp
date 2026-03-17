@@ -2,12 +2,13 @@
 
 
 #include "StateMachine/BaseState.h"
+#include "Interface/IHolderAttribute.h"
+#include "Interface/IHolderFunction.h"
 
-BaseState::BaseState(IIHolderAttribute* InHolder) : InHolderAttribute(InHolder)
+BaseState::BaseState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF) : InHolderAttribute(InHolderA), InHolderFunction(InHolderF)
 {
 }
 
 BaseState::~BaseState()
 {
 }
-

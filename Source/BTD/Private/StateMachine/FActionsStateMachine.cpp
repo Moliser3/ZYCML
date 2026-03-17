@@ -2,8 +2,10 @@
 
 
 #include "StateMachine/FActionsStateMachine.h"
+#include "Interface/IHolderFunction.h"
 
-FActionsStateMachine::FActionsStateMachine()
+FActionsStateMachine::FActionsStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF)
+	: BaseStateMachine(InHolderA, InHolderF)
 {
 }
 

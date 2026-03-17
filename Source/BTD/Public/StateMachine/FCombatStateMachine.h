@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseStateMachine.h"
 
 /**
- * 
+ * 角色状态状态机
  */
-class BTD_API FCombatStateMachine
+class BTD_API FCombatStateMachine : public BaseStateMachine
 {
 public:
-	FCombatStateMachine();
+	explicit FCombatStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF);
 	~FCombatStateMachine();
 };

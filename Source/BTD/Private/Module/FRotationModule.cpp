@@ -24,8 +24,9 @@ void FRotationModule::RotationModuleTick()
 	const FVector TargetLocation = HolderAttribute->GetTargetLocation_Implementation();
 	const FVector CurrentLocation = HolderAttribute->GetLocation_Implementation();
 	TargetRotationDirection = HolderAttribute->GetTargetRotationDirection_Implementation();
-	// 如果旋转状态不是默认状态，执行旋转更新
-	if (HolderAttribute->GetCurrentRotaType_Implementation() != EActorRotaType::Default)
+	// 执行旋转更新
+	if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Rotating
+		|| HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Gazing)
 	{
 		// 如果是Gazing状态且有有效的目标，实时更新目标方向
 		if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Gazing)
@@ -48,7 +49,7 @@ void FRotationModule::RotationModuleTick()
 			else
 			{
 				// 目标与自己在同一位置，停止Gazing
-				HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Default);
+				HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
 				return;
 			}
 		}
@@ -86,7 +87,7 @@ void FRotationModule::CheckRotationCompletion() const
 	// 如果夹角小于阈值，说明Forward向量已经指向目标方向，停止旋转
 	if (AngleDifference < RotationCompletionThreshold)
 	{
-		HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Default);
+		HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
 	}
 }
 

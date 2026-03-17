@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BaseStateMachine.h"
 
 /**
- * 
+ * 旋转状态机
  */
-class BTD_API FRotationStateMachine
+class BTD_API FRotationStateMachine : public BaseStateMachine
 {
 public:
-	FRotationStateMachine();
+	explicit FRotationStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF);
 	~FRotationStateMachine();
 };
