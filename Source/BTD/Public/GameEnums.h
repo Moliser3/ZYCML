@@ -95,6 +95,16 @@ enum class ECharacterType : uint8
 	NPC = 1 UMETA(DisplayName = "NPC")
 };
 
+UENUM(BlueprintType)
+enum class ETopState : uint8
+{
+    //存活
+    Living = 0 UMETA(DisplayName = "Living"),
+    
+    //死亡
+    Dead = 1 UMETA(DisplayName = "Dead")
+};
+
 /**
  *
  */
