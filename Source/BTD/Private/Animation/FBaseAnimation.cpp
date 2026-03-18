@@ -3,7 +3,19 @@
 
 #include "Animation/FBaseAnimation.h"
 
-void UFBaseAnimation::SetIdleToCombat(float InIdleToCombat)
+#include "GameEnums.h"
+
+void UFBaseAnimation::SetIdleToCombat(const float InIdleToCombat)
 {
-	IdleToCombat = InIdleToCombat;
+    CombatPose = InIdleToCombat;
+}
+
+void UFBaseAnimation::SwitchBehaviourState(const ECharacterBehavior NewBehavior)
+{
+    CharacterBehavior = NewBehavior;
+}
+
+void UFBaseAnimation::SwitchMoveState(const EMoveState NewMoveState)
+{
+    MoveState = NewMoveState;
 }

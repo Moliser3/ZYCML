@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BaseStateMachine.h"
 
+enum class ECharacterBehavior : uint8;
 /**
  * 行为状态机
  */

@@ -6,17 +6,24 @@
 #include "Animation/AnimInstance.h"
 #include "FBaseAnimation.generated.h"
 
+enum class EMoveState : uint8;
+enum class ECharacterBehavior : uint8;
 /**
  * 
  */
 UCLASS()
 class BTD_API UFBaseAnimation : public UAnimInstance
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|IdleToCombat")
-	float IdleToCombat;
-
-	void SetIdleToCombat(float InIdleToCombat);
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
+    float CombatPose;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
+    ECharacterBehavior CharacterBehavior;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
+    EMoveState MoveState;
+    void SetIdleToCombat(const float InIdleToCombat);
+    void SwitchBehaviourState(const ECharacterBehavior NewBehavior);
+    void SwitchMoveState(const EMoveState NewMoveState);
 };

@@ -10,29 +10,29 @@ BaseStateMachine::BaseStateMachine(IIHolderAttribute* InHolderA, IIHolderFunctio
 
 BaseStateMachine::~BaseStateMachine()
 {
-	if (CurrentState)
-	{
-		CurrentState->OnExit();
-		delete CurrentState;
-		CurrentState = nullptr;
-	}
+    if (CurrentState)
+    {
+        CurrentState->OnExit();
+        delete CurrentState;
+        CurrentState = nullptr;
+    }
 }
 
 void BaseStateMachine::Transition(IState* NewState)
 {
-	if (CurrentState)
-	{
-		CurrentState->OnExit();
-		delete CurrentState;
-		CurrentState = nullptr;
-	}
-	CurrentState = NewState;
-	CurrentState->OnEnter();
+    if (CurrentState)
+    {
+        CurrentState->OnExit();
+        delete CurrentState;
+        CurrentState = nullptr;
+    }
+    CurrentState = NewState;
+    CurrentState->OnEnter();
 }
 
 void BaseStateMachine::Update(const float DeltaTime) const
 {
-	if (!CurrentState)
-		return;
-	CurrentState->OnUpdate(DeltaTime);
+    if (!CurrentState)
+        return;
+    CurrentState->OnUpdate(DeltaTime);
 }

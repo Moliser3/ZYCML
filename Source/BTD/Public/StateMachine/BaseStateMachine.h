@@ -18,11 +18,9 @@ public:
 	~BaseStateMachine();
 	void Transition(IState* NewState);
 	void Update(const float DeltaTime) const;
-
 protected:
 	IIHolderAttribute* InHolderAttribute;
 	IIHolderFunction* InHolderFunction;
-
 private:
 	IState* CurrentState;
 };

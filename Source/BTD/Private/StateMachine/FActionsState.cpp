@@ -5,9 +5,9 @@
 #include "Interface/IHolderAttribute.h"
 
 FActionsState::FActionsState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECharacterBehavior InputState)
-	: BaseState(InHolderA, InHolderF)
+    : BaseState(InHolderA, InHolderF)
 {
-	CurrentState = InputState;
+    CurrentState = InputState;
 }
 
 FActionsState::~FActionsState()
@@ -16,63 +16,65 @@ FActionsState::~FActionsState()
 
 void FActionsState::OnEnter()
 {
-	switch (CurrentState)
-	{
-	case ECharacterBehavior::Idle:
-		break;
-	case ECharacterBehavior::Moving:
-		break;
-	case ECharacterBehavior::Death:
-		break;
-	case ECharacterBehavior::Jump:
-		break;
-	case ECharacterBehavior::Hit:
-		break;
-	case ECharacterBehavior::Defense:
-		break;
-	case ECharacterBehavior::Attack:
-		break;
-	}
+    switch (CurrentState)
+    {
+    case ECharacterBehavior::Idle:
+        break;
+    case ECharacterBehavior::Moving:
+        break;
+    case ECharacterBehavior::Death:
+        break;
+    case ECharacterBehavior::Jump:
+        break;
+    case ECharacterBehavior::Hit:
+        break;
+    case ECharacterBehavior::Defense:
+        break;
+    case ECharacterBehavior::Attack:
+        break;
+    }
+    InHolderAttribute->SetBehaviorState_Implementation(CurrentState);
+    InHolderFunction->SwitchBehaviourAnimation_Implementation(CurrentState);
 }
 
 void FActionsState::OnUpdate(float DeltaTime)
 {
-	switch (CurrentState)
-	{
-	case ECharacterBehavior::Idle:
-		break;
-	case ECharacterBehavior::Moving:
-		break;
-	case ECharacterBehavior::Death:
-		break;
-	case ECharacterBehavior::Jump:
-		break;
-	case ECharacterBehavior::Hit:
-		break;
-	case ECharacterBehavior::Defense:
-		break;
-	case ECharacterBehavior::Attack:
-		break;
-	}
+    switch (CurrentState)
+    {
+    case ECharacterBehavior::Idle:
+        break;
+    case ECharacterBehavior::Moving:
+        break;
+    case ECharacterBehavior::Death:
+        break;
+    case ECharacterBehavior::Jump:
+        break;
+    case ECharacterBehavior::Hit:
+        break;
+    case ECharacterBehavior::Defense:
+        break;
+    case ECharacterBehavior::Attack:
+        break;
+    }
 }
 
 void FActionsState::OnExit()
 {
-	switch (CurrentState)
-	{
-	case ECharacterBehavior::Idle:
-		break;
-	case ECharacterBehavior::Moving:
-		break;
-	case ECharacterBehavior::Death:
-		break;
-	case ECharacterBehavior::Jump:
-		break;
-	case ECharacterBehavior::Hit:
-		break;
-	case ECharacterBehavior::Defense:
-		break;
-	case ECharacterBehavior::Attack:
-		break;
-	}
+    switch (CurrentState)
+    {
+    case ECharacterBehavior::Idle:
+        break;
+    case ECharacterBehavior::Moving:
+        break;
+    case ECharacterBehavior::Death:
+        break;
+    case ECharacterBehavior::Jump:
+        break;
+    case ECharacterBehavior::Hit:
+        break;
+    case ECharacterBehavior::Defense:
+        break;
+    case ECharacterBehavior::Attack:
+        break;
+    }
 }

@@ -5,9 +5,9 @@
 #include "Interface/IHolderAttribute.h"
 
 FMovingState::FMovingState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const EMoveState InputState)
-	: BaseState(InHolderA, InHolderF)
+    : BaseState(InHolderA, InHolderF)
 {
-	CurrentState = InputState;
+    CurrentState = InputState;
 }
 
 FMovingState::~FMovingState()
@@ -16,33 +16,29 @@ FMovingState::~FMovingState()
 
 void FMovingState::OnEnter()
 {
-	switch (CurrentState)
-	{
-	case EMoveState::Walking:
-		break;
-	case EMoveState::Running:
-		break;
-	}
+    //UE_LOG(LogTemp, Log, TEXT("MoveState OnEnter"));
+    InHolderAttribute->SetCurrentMoveSpeed_Implementation(CurrentState);
+    InHolderFunction->SwitchMoveAnimation_Implementation(CurrentState);
 }
 
 void FMovingState::OnUpdate(float DeltaTime)
 {
-	switch (CurrentState)
-	{
-	case EMoveState::Walking:
-		break;
-	case EMoveState::Running:
-		break;
-	}
+    switch (CurrentState)
+    {
+    case EMoveState::Walking:
+        break;
+    case EMoveState::Running:
+        break;
+    }
 }
 
 void FMovingState::OnExit()
 {
-	switch (CurrentState)
-	{
-	case EMoveState::Walking:
-		break;
-	case EMoveState::Running:
-		break;
-	}
+    switch (CurrentState)
+    {
+    case EMoveState::Walking:
+        break;
+    case EMoveState::Running:
+        break;
+    }
 }
