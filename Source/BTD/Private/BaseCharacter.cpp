@@ -340,37 +340,40 @@ void ABaseCharacter::SetHealth_Implementation(float NewHealth)
 
 
 /*状态机 相关 Start*/
+//切换定级状态机
 void ABaseCharacter::SwitchTopState_Implementation(const ETopState InTopState)
 {
     TopStateMachine->Transition(new FTopState(this, this, InTopState));
 }
-
+//切换战斗状态机
 void ABaseCharacter::SwitchCombatState_Implementation(const ECombatState InCharacterState)
 {
     CombatStateMachine->Transition(new FCombatState(this, this, InCharacterState));
 }
-
+//切换战斗动画
 void ABaseCharacter::SwitchCombatAnimation_Implementation(const float Value)
 {
     BaseAnimation->SetIdleToCombat(Value);
 }
 
+//切换行为状态机
 void ABaseCharacter::SwitchBehaviourState_Implementation(const ECharacterBehavior NewBehavior)
 {
     ActionStateMachine->Transition(new FActionsState(this, this, NewBehavior));
 }
 
+//切换行为动画
 void ABaseCharacter::SwitchBehaviourAnimation_Implementation(const ECharacterBehavior NewBehavior)
 {
     BaseAnimation->SwitchBehaviourState(NewBehavior);
 }
-
+//切换移动状态机
 void ABaseCharacter::SwitchMovingState_Implementation(const EMoveState NewMoveState)
 {
    // UE_LOG(LogTemp, Log, TEXT("SwitchMovingState_Implementation"));
     MovingStateMachine->Transition(new FMovingState(this, this, NewMoveState));
 }
-
+//切换移动动画
 void ABaseCharacter::SwitchMoveAnimation_Implementation(const EMoveState NewMoveState)
 {
     if (BaseAnimation)
