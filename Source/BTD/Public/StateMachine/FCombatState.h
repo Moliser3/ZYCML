@@ -12,7 +12,7 @@
 class BTD_API FCombatState : public BaseState
 {
 public:
-	explicit FCombatState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatState InputState);
+	explicit FCombatState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const ECombatState InputState);
 
 	virtual ~FCombatState() override;
 	virtual void OnEnter() override;

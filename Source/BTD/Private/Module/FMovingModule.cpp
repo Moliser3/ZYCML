@@ -3,7 +3,7 @@
 
 #include "Module/FMovingModule.h"
 
-FMovingModule::FMovingModule(IIHolderAttribute* InHolder): HolderAttribute(InHolder)
+FMovingModule::FMovingModule(IIHolderAttribute* InHolder, IIHolderStateMachine* InHolderM): HolderAttribute(InHolder), HolderStateMachine(InHolderM)
 {
 	// 初始化移动状态检查计时器
 	MoveStateCheckTimer = 0.0f;
@@ -16,10 +16,11 @@ FMovingModule::FMovingModule(IIHolderAttribute* InHolder): HolderAttribute(InHol
 FMovingModule::~FMovingModule()
 {
 }
+
 // 检查移动状态，根据移动方向调整角色朝向
 void FMovingModule::MovingModuleTick(float DeltaTime)
 {
-	if (HolderAttribute->GetBehaviorState_Implementation() != ECharacterBehavior::Moving)
+	if (HolderStateMachine->GetActionsState() != ECharacterBehavior::Moving)
 		return;
 	// 累计检查计时器
 	MoveStateCheckTimer += DeltaTime;
@@ -70,7 +71,7 @@ void FMovingModule::MovingModuleTick(float DeltaTime)
 		{
 			// 调用旋转方法，直接传入移动方向
 			// 旋转速度使用蓝图可编辑的 RotationSpeed 变量
-			if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Gazing)
+			if (HolderStateMachine->GetRotationState() == EActorRotaType::Gazing)
 				return;
 			//设置 当前旋转模式
 			HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);

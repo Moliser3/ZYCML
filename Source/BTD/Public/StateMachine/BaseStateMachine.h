@@ -21,6 +21,6 @@ public:
 protected:
 	IIHolderAttribute* InHolderAttribute;
 	IIHolderFunction* InHolderFunction;
-private:
 	IState* CurrentState;
+private:
 };

@@ -8,8 +8,12 @@
 
 enum class EMoveState : uint8;
 enum class ECharacterBehavior : uint8;
+enum class ETopState : uint8;
+enum class ECombatState : uint8;
+enum class EActorRotaType : uint8;
+enum class ECombatType : uint8;
 /**
- * 
+ *
  */
 UCLASS()
 class BTD_API UFBaseAnimation : public UAnimInstance
@@ -19,11 +23,25 @@ class BTD_API UFBaseAnimation : public UAnimInstance
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
     float CombatPose;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
+
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
+    ETopState TopState;
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
+    ECombatState CombatState;
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
     ECharacterBehavior CharacterBehavior;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Property")
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
     EMoveState MoveState;
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
+    EActorRotaType RotationType;
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
+    ECombatType CombatType;
+
     void SetIdleToCombat(const float InIdleToCombat);
-    void SwitchBehaviourState(const ECharacterBehavior NewBehavior);
-    void SwitchMoveState(const EMoveState NewMoveState);
+    void SwitchTopState(ETopState NewState);
+    void SwitchCombatState(ECombatState NewState);
+    void SwitchBehaviourState(ECharacterBehavior NewBehavior);
+    void SwitchMoveState(EMoveState NewMoveState);
+    void SwitchRotationType(EActorRotaType NewRotationType);
+    void SwitchCombatType(ECombatType NewCombatType);
 };

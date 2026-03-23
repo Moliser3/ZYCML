@@ -12,7 +12,7 @@
 class BTD_API FActionsState : public BaseState
 {
 public:
-	explicit FActionsState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECharacterBehavior InputState);
+	explicit FActionsState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD,IIHolderStateMachine*	InHolderM,const ECharacterBehavior InputState);
 
 	virtual ~FActionsState() override;
 	virtual void OnEnter() override;

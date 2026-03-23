@@ -4,8 +4,8 @@
 #include "StateMachine/FCombatState.h"
 #include "Interface/IHolderAttribute.h"
 
-FCombatState::FCombatState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatState InputState)
-	: BaseState(InHolderA, InHolderF)
+FCombatState::FCombatState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const ECombatState InputState)
+	: BaseState(InHolderA, InHolderF, InHolderD, InHolderM)
 {
 	CurrentState = InputState;
 }
@@ -16,17 +16,13 @@ FCombatState::~FCombatState()
 
 void FCombatState::OnEnter()
 {
-	float Value = 0;
 	switch (CurrentState)
 	{
 	case ECombatState::Idle:
-
 		break;
 	case ECombatState::Combat:
-		Value = 1;
 		break;
 	}
-	InHolderFunction->SwitchCombatAnimation_Implementation(Value);
 }
 
 void FCombatState::OnUpdate(float DeltaTime)

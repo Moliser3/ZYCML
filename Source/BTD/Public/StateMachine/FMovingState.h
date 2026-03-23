@@ -12,7 +12,7 @@
 class BTD_API FMovingState : public BaseState
 {
 public:
-	explicit FMovingState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const EMoveState InputState);
+	explicit FMovingState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const EMoveState InputState);
 
 	virtual ~FMovingState() override;
 	virtual void OnEnter() override;

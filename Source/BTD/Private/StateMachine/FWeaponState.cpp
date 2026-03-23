@@ -4,8 +4,8 @@
 #include "StateMachine/FWeaponState.h"
 #include "Interface/IHolderAttribute.h"
 
-FWeaponState::FWeaponState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatType InputState)
-	: BaseState(InHolderA, InHolderF)
+FWeaponState::FWeaponState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const ECombatType InputState)
+	: BaseState(InHolderA, InHolderF, InHolderD, InHolderM)
 {
 	CurrentState = InputState;
 }

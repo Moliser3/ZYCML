@@ -12,7 +12,7 @@
 class BTD_API FWeaponState : public BaseState
 {
 public:
-	explicit FWeaponState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const ECombatType InputState);
+	explicit FWeaponState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const ECombatType InputState);
 
 	virtual ~FWeaponState() override;
 	virtual void OnEnter() override;

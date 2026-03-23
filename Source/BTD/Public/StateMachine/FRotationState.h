@@ -12,7 +12,7 @@
 class BTD_API FRotationState : public BaseState
 {
 public:
-	explicit FRotationState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const EActorRotaType InputState);
+	explicit FRotationState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const EActorRotaType InputState);
 
 	virtual ~FRotationState() override;
 	virtual void OnEnter() override;

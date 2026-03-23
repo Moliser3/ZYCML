@@ -3,11 +3,12 @@
 
 #include "StateMachine/FMovingState.h"
 #include "Interface/IHolderAttribute.h"
+#include "Interface/IHolderData.h"
 
-FMovingState::FMovingState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, const EMoveState InputState)
-    : BaseState(InHolderA, InHolderF)
+FMovingState::FMovingState(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF, IIHolderData* InHolderD, IIHolderStateMachine* InHolderM, const EMoveState InputState)
+	: BaseState(InHolderA, InHolderF, InHolderD, InHolderM)
 {
-    CurrentState = InputState;
+	CurrentState = InputState;
 }
 
 FMovingState::~FMovingState()
@@ -16,29 +17,35 @@ FMovingState::~FMovingState()
 
 void FMovingState::OnEnter()
 {
-    //UE_LOG(LogTemp, Log, TEXT("MoveState OnEnter"));
-    InHolderAttribute->SetCurrentMoveSpeed_Implementation(CurrentState);
-    InHolderFunction->SwitchMoveAnimation_Implementation(CurrentState);
+	switch (CurrentState)
+	{
+	case EMoveState::Walking:
+		break;
+	case EMoveState::Running:
+		break;
+	}
 }
 
 void FMovingState::OnUpdate(float DeltaTime)
 {
-    switch (CurrentState)
-    {
-    case EMoveState::Walking:
-        break;
-    case EMoveState::Running:
-        break;
-    }
+	switch (CurrentState)
+	{
+	case EMoveState::Walking:
+		InHolderFunction->SetMovementSpeed_Implementation(InHolderData->GetWalkSpeed());
+		break;
+	case EMoveState::Running:
+		InHolderFunction->SetMovementSpeed_Implementation(InHolderData->GetRunSpeed());
+		break;
+	}
 }
 
 void FMovingState::OnExit()
 {
-    switch (CurrentState)
-    {
-    case EMoveState::Walking:
-        break;
-    case EMoveState::Running:
-        break;
-    }
+	switch (CurrentState)
+	{
+	case EMoveState::Walking:
+		break;
+	case EMoveState::Running:
+		break;
+	}
 }

@@ -4,7 +4,7 @@
 #include "Module/FRotationModule.h"
 #include "GameEnums.h"
 
-FRotationModule::FRotationModule(IIHolderAttribute* InHolder): HolderAttribute(InHolder)
+FRotationModule::FRotationModule(IIHolderAttribute* InHolderA, IIHolderStateMachine* InHolderM): HolderAttribute(InHolderA), HolderStateMachine(InHolderM)
 {
 	TargetRotationDirection = FVector::Zero();
 }
@@ -24,44 +24,48 @@ void FRotationModule::RotationModuleTick()
 	const FVector TargetLocation = HolderAttribute->GetTargetLocation_Implementation();
 	const FVector CurrentLocation = HolderAttribute->GetLocation_Implementation();
 	TargetRotationDirection = HolderAttribute->GetTargetRotationDirection_Implementation();
-	// 执行旋转更新
-	if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Rotating
-		|| HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Gazing)
+
+
+	// 如果是Gazing状态且有有效的目标，实时更新目标方向
+	if (HolderStateMachine->GetRotationState() == EActorRotaType::Gazing)
 	{
-		// 如果是Gazing状态且有有效的目标，实时更新目标方向
-		if (HolderAttribute->GetCurrentRotaType_Implementation() == EActorRotaType::Gazing)
+		// 计算指向目标的方向
+		FVector DirectionToTarget = (TargetLocation - CurrentLocation);
+		DirectionToTarget.Z = 0.0f; // 只在水平面上旋转
+
+		// 归一化方向
+		if (!DirectionToTarget.IsNormalized())
 		{
-			// 计算指向目标的方向
-			FVector DirectionToTarget = (TargetLocation - CurrentLocation);
-			DirectionToTarget.Z = 0.0f; // 只在水平面上旋转
-
-			// 归一化方向
-			if (!DirectionToTarget.IsNormalized())
-			{
-				DirectionToTarget.Normalize();
-			}
-
-			// 如果方向有效，更新目标旋转方向
-			if (!DirectionToTarget.IsZero())
-			{
-				TargetRotationDirection = DirectionToTarget;
-			}
-			else
-			{
-				// 目标与自己在同一位置，停止Gazing
-				HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
-				return;
-			}
+			DirectionToTarget.Normalize();
 		}
+
+		// 如果方向有效，更新目标旋转方向
+		if (!DirectionToTarget.IsZero())
+		{
+			TargetRotationDirection = DirectionToTarget;
+		}
+		else
+		{
+			// 目标与自己在同一位置，停止Gazing
+			HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
+			return;
+		}
+
 
 		//UE_LOG(LogTemp, Log, TEXT("CurrentRotaType: %s"), *UEnum::GetValueAsString(HolderAttribute->GetCurrentRotaType_Implementation()));
 		RotateToTargetDirection(TargetRotationDirection);
-
-		// 检测旋转是否完成（仅针对非Gazing状态）
-		if (HolderAttribute->GetCurrentRotaType_Implementation() != EActorRotaType::Gazing)
+	}
+	else
+	{
+		if (!TargetRotationDirection.IsZero())
 		{
-			CheckRotationCompletion();
+			RotateToTargetDirection(TargetRotationDirection);
 		}
+	}
+	// 检测旋转是否完成（仅针对非Gazing状态）
+	if (HolderStateMachine->GetRotationState() != EActorRotaType::Gazing)
+	{
+		CheckRotationCompletion();
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "StateMachine/FTopStateMachine.h"
 
 #include "Interface/IHolderFunction.h"
+#include "StateMachine/FTopState.h"
 
 FTopStateMachine::FTopStateMachine(IIHolderAttribute* InHolderA, IIHolderFunction* InHolderF) : BaseStateMachine(InHolderA, InHolderF)
 {
