@@ -101,7 +101,7 @@ void ABaseCharacter::SetMoveState(const EMoveState InMoveState)
 	StateMachineModule->SwitchMovingState(InMoveState);
 }
 
-/*蓝图调用 移动相关 Start */
+
 void ABaseCharacter::BeginActiveMove()
 {
 	// 设置行为状态为移动
@@ -115,18 +115,30 @@ void ABaseCharacter::OnMoveEnd()
 	StateMachineModule->SwitchActionsState(ECharacterBehavior::Idle);
 }
 
+void ABaseCharacter::SetTargetActor(ABaseCharacter* InTargetActor)
+{
+	if (!InTargetActor)
+		return;
+	StateMachineModule->SwitchCombatState(ECombatState::Combat);
+	TargetActor = InTargetActor;
+}
+
 /*移动流程 结束*/
 
-
 /*蓝图调用 转向相关 start */
-void ABaseCharacter::ActiveGazing()
+void ABaseCharacter::ActivateRotating_Implementation()
+{
+	StateMachineModule->SwitchCombatState(ECombatState::Idle);
+	StateMachineModule->SwitchRotationState(EActorRotaType::Rotating);
+}
+
+void ABaseCharacter::ActiveGazing_Implementation()
 {
 	// 检查TargetActor是否有效
-	if (!TargetActor || !TargetActor->Implements<UIActorProperty>())
+	if (!TargetActor || !TargetActor->Implements<UIHolderFunction>())
 	{
 		return;
 	}
-	// 设置旋转状态为Gazing
 	StateMachineModule->SwitchRotationState(EActorRotaType::Gazing);
 }
 
@@ -151,10 +163,10 @@ FVector ABaseCharacter::GetTargetLocation_Implementation() const
 {
 	//通过 IIActorProperty 接口获取目标角色的位置
 	//使用 IsValid 确保 TargetActor 未被销毁（避免悬空指针崩溃）
-	// if (IsValid(TargetActor) && TargetActor->Implements<UIActorProperty>())
-	// {
-	//     return IIActorProperty::Execute_GetLocation(TargetActor);
-	// }
+	if (IsValid(TargetActor) && TargetActor->Implements<UIHolderAttribute>())
+	{
+		return TargetActor->GetActorLocation();
+	}
 	return FVector::ZeroVector;
 }
 

@@ -23,7 +23,15 @@ class BTD_API IIHolderFunction
 
     // Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-    //设置移动组件的移动速度
+    // 设置移动组件的移动速度
     UFUNCTION(BlueprintNativeEvent, Category = "Interface|Function")
-    void  SetMovementSpeed(const float Value);
+    void SetMovementSpeed(const float Value);
+
+    // 激活旋转状态：切换为普通旋转模式
+    UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Interface|Function")
+    void ActivateRotating();
+
+    // 激活注视状态：切换为持续朝向目标的旋转模式
+    UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Interface|Function")
+    void ActiveGazing();
 };

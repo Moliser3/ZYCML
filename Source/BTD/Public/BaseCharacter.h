@@ -71,9 +71,11 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// 激活注视：使角色正面永远看向TargetActor的位置
-	UFUNCTION(BlueprintCallable, Category = "Character|Target")
-	void ActiveGazing();
+	// 实现 IIHolderFunction 接口：激活旋转状态
+	virtual void ActivateRotating_Implementation() override;
+
+	// 实现 IIHolderFunction 接口：激活注视状态
+	virtual void ActiveGazing_Implementation() override;
 
 	// 激活移动状态（根据当前移动状态执行对应逻辑）
 	UFUNCTION(BlueprintCallable, Category = "Character|Movement")
@@ -86,7 +88,7 @@ public:
 	// 设置目标角色
 	// InTargetActor: 要设置的目标BaseCharacter
 	UFUNCTION(BlueprintCallable, Category = "Character|Target")
-	void SetTargetActor(ABaseCharacter* InTargetActor) { TargetActor = InTargetActor; }
+	void SetTargetActor(ABaseCharacter* InTargetActor);
 
 	// 获取目标角色
 	UFUNCTION(BlueprintPure, Category = "Character|Target")

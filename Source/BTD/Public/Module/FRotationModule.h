@@ -20,6 +20,7 @@ public:
 	//在Begin中进行模块初始化
 	void InitRotationModel(const TArray<float>& InAngleRangeRotationSpeeds);
 
+
 private:
 	// 持有者接口，用于获取位置等信息
 	IIHolderAttribute* HolderAttribute;

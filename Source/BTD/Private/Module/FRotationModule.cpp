@@ -13,6 +13,7 @@ FRotationModule::~FRotationModule()
 {
 }
 
+
 void FRotationModule::InitRotationModel(const TArray<float>& InAngleRangeRotationSpeeds)
 {
 	AngleRangeRotationSpeeds.Empty();
@@ -50,9 +51,7 @@ void FRotationModule::RotationModuleTick()
 			HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
 			return;
 		}
-
-
-		//UE_LOG(LogTemp, Log, TEXT("CurrentRotaType: %s"), *UEnum::GetValueAsString(HolderAttribute->GetCurrentRotaType_Implementation()));
+		
 		RotateToTargetDirection(TargetRotationDirection);
 	}
 	else
