@@ -92,6 +92,23 @@ enum class ECharacterType : uint8
 	NPC = 1 UMETA(DisplayName = "NPC")
 };
 
+// 移动方向枚举
+UENUM(BlueprintType)
+enum class EMoveDirection : uint8
+{
+	// 前
+	Forward = 0 UMETA(DisplayName = "Forward"),
+
+	// 后
+	Backward = 1 UMETA(DisplayName = "Backward"),
+
+	// 左
+	Left = 2 UMETA(DisplayName = "Left"),
+
+	// 右
+	Right = 3 UMETA(DisplayName = "Right")
+};
+
 UENUM(BlueprintType)
 enum class ETopState : uint8
 {

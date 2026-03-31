@@ -15,7 +15,7 @@ class UIHolderAttribute : public UInterface
 };
 
 /**
- * 
+ *
  */
 class BTD_API IIHolderAttribute
 {
@@ -39,10 +39,17 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	FRotator GetRotation() const;
 
+	 // 设置当前速度
+	 UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	 void SetCurrentMoveSpeed(const EMoveState NewMoveState);
+
 	// 设置持有者的旋转角度
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	void SetHolderRotation(FRotator NewRotation);
 
+	// 获取当前移动方向
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	EMoveDirection GetMoveDirection() const;
 
 	// 设置持有者的旋转类型状态
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
@@ -55,4 +62,12 @@ public:
 	// 设置持有者的目标旋转方向
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
 	void SetTargetRotationDirection(const FVector& NewDirection);
+
+	// // 获取持有者的当前生命值
+	// UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	// float GetHealth() const;
+
+	 // 设置持有者的生命值
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Holder")
+	void SetHealth(float NewHealth);
 };

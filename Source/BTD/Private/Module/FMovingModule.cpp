@@ -2,7 +2,7 @@
 
 
 #include "Module/FMovingModule.h"
-
+#include "GameEnums.h"
 FMovingModule::FMovingModule(IIHolderAttribute* InHolder, IIHolderStateMachine* InHolderM): HolderAttribute(InHolder), HolderStateMachine(InHolderM)
 {
 	// 初始化移动状态检查计时器
@@ -11,10 +11,24 @@ FMovingModule::FMovingModule(IIHolderAttribute* InHolder, IIHolderStateMachine* 
 	MoveStateCheckInterval = 0.05f;
 	// 初始化最后位置
 	LastRecordedPosition = FVector::Zero();
+	// 初始化移动方向
+	CurrentMoveDirection = EMoveDirection::Forward;
+
+
 }
 
 FMovingModule::~FMovingModule()
 {
+}
+
+FDelegateHandle FMovingModule::RegisterMoveDirectionChanged(const FOnGazingMoveDirectionChanged::FDelegate& Delegate)
+{
+	return OnGazingMoveDirectionChanged.Add(Delegate);
+}
+
+void FMovingModule::UnregisterMoveDirectionChanged(FDelegateHandle Handle)
+{
+	OnGazingMoveDirectionChanged.Remove(Handle);
 }
 
 // 检查移动状态，根据移动方向调整角色朝向
@@ -65,14 +79,35 @@ void FMovingModule::MovingModuleTick(float DeltaTime)
 		float DotProduct = FVector::DotProduct(CurrentForward, MoveDirection);
 		DotProduct = FMath::Clamp(DotProduct, -1.0f, 1.0f);
 		float AngleDifference = FMath::Acos(DotProduct) * (180.0f / PI);
-		// 如果夹角过大（超过10度），则调用旋转方法调整朝向
-		// 10度的阈值确保只有明显偏离时才会触发旋转
+		// 注视模式：计算当前帧的移动方向（前/后/左/右）
+		if (HolderStateMachine->GetRotationState() == EActorRotaType::Gazing)
+		{
+			// 右向量 = Cross(Up, Forward)，即 (-fy, fx, 0)
+			const FVector RightVector = FVector(-CurrentForward.Y, CurrentForward.X, 0.0f);
+			const float ForwardDot = FVector::DotProduct(MoveDirection, CurrentForward);
+			const float RightDot = FVector::DotProduct(MoveDirection, RightVector);
+
+			EMoveDirection NewDirection;
+			if (FMath::Abs(ForwardDot) >= FMath::Abs(RightDot))
+			{
+				NewDirection = ForwardDot >= 0.0f ? EMoveDirection::Forward : EMoveDirection::Backward;
+			}
+			else
+			{
+				NewDirection = RightDot >= 0.0f ? EMoveDirection::Right : EMoveDirection::Left;
+			}
+
+			if (NewDirection != CurrentMoveDirection)
+			{
+				CurrentMoveDirection = NewDirection;
+				OnGazingMoveDirectionChanged.Broadcast(CurrentMoveDirection);
+			}
+			return;
+		}
+
+		// 旋转模式：如果夹角过大（超过5度），调整角色朝向
 		if (constexpr float DirectionMismatchThreshold = 5.0f; AngleDifference > DirectionMismatchThreshold)
 		{
-			// 调用旋转方法，直接传入移动方向
-			// 旋转速度使用蓝图可编辑的 RotationSpeed 变量
-			if (HolderStateMachine->GetRotationState() == EActorRotaType::Gazing)
-				return;
 			//设置 当前旋转模式
 			HolderAttribute->SetCurrentRotaType_Implementation(EActorRotaType::Rotating);
 			//设置 移动方向

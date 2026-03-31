@@ -39,3 +39,8 @@ void UFBaseAnimation::SwitchCombatType(ECombatType NewCombatType)
 {
     CombatType = NewCombatType;
 }
+
+void UFBaseAnimation::SwitchMoveDirection(EMoveDirection NewMoveDirection)
+{
+    MoveDirection = NewMoveDirection;
+}

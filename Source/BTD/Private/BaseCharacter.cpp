@@ -46,6 +46,8 @@ ABaseCharacter::~ABaseCharacter()
 	CharacterDataModule = nullptr;
 	delete RotationModule;
 	RotationModule = nullptr;
+	//清理移动模块中的委托
+	MovingModule->UnregisterMoveDirectionChanged(MoveDirectionChangedHandle);
 	delete MovingModule;
 	MovingModule = nullptr;
 }
@@ -67,6 +69,10 @@ void ABaseCharacter::BeginPlay()
 		StateMachineModule->OnMovingStateChanged.AddUObject(BaseAnimation, &UFBaseAnimation::SwitchMoveState);
 		StateMachineModule->OnRotationStateChanged.AddUObject(BaseAnimation, &UFBaseAnimation::SwitchRotationType);
 		StateMachineModule->OnWeaponStateChanged.AddUObject(BaseAnimation, &UFBaseAnimation::SwitchCombatType);
+
+		// 注册注视移动方向改变委托
+		MoveDirectionChangedHandle = MovingModule->RegisterMoveDirectionChanged(
+			FOnGazingMoveDirectionChanged::FDelegate::CreateUObject(BaseAnimation, &UFBaseAnimation::SwitchMoveDirection));
 	}
 
 	RotationModule->InitRotationModel(AngleRangeRotationSpeeds); //旋转模块初始化
@@ -182,6 +188,11 @@ void ABaseCharacter::SetHolderRotation_Implementation(FRotator NewRotation)
 	SetActorRotation(NewRotation);
 }
 
+void ABaseCharacter::SetCurrentRotaType_Implementation(EActorRotaType NewRotaType)
+{
+	StateMachineModule->SwitchRotationState(NewRotaType);
+}
+
 FVector ABaseCharacter::GetTargetRotationDirection_Implementation() const
 {
 	// 返回当前角色的目标旋转方向
@@ -199,4 +210,9 @@ void ABaseCharacter::SetMovementSpeed_Implementation(const float Value)
 {
 	// 将当前移动速度赋值给移动组件
 	GetCharacterMovement()->MaxWalkSpeed = Value;
+}
+
+EMoveDirection ABaseCharacter::GetMoveDirection_Implementation() const
+{
+	return MovingModule->GetMoveDirection();
 }

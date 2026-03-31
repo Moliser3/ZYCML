@@ -12,6 +12,7 @@ enum class ETopState : uint8;
 enum class ECombatState : uint8;
 enum class EActorRotaType : uint8;
 enum class ECombatType : uint8;
+enum class EMoveDirection : uint8;
 /**
  *
  */
@@ -36,6 +37,8 @@ public:
     EActorRotaType RotationType;
     UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
     ECombatType CombatType;
+    UPROPERTY(BlueprintReadOnly, Category = "Animation|State")
+    EMoveDirection MoveDirection;
 
     void SetIdleToCombat(const float InIdleToCombat);
     void SwitchTopState(ETopState NewState);
@@ -44,4 +47,5 @@ public:
     void SwitchMoveState(EMoveState NewMoveState);
     void SwitchRotationType(EActorRotaType NewRotationType);
     void SwitchCombatType(ECombatType NewCombatType);
+    void SwitchMoveDirection(EMoveDirection NewMoveDirection);
 };

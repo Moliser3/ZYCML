@@ -49,6 +49,8 @@ private:
 	TScriptInterface<IIActorProperty> ExternalTargetProperty;
 	// 动画实例
 	UFBaseAnimation* BaseAnimation;
+	// 移动方向委托句柄
+	FDelegateHandle MoveDirectionChangedHandle;
 
 public:
 	// 不同角度范围对应的旋转速度数组（0-45°, 45-90°, 90-135°, 135-180°）
@@ -114,6 +116,9 @@ public:
 	// 实现 IIHolderAttribute 接口：设置当前角色的旋转角度
 	virtual void SetHolderRotation_Implementation(FRotator NewRotation) override;
 
+	// 实现 IIHolderAttribute 接口：设置当前旋转类型状态
+	virtual void SetCurrentRotaType_Implementation(EActorRotaType NewRotaType) override;
+
 
 	// 实现 IIHolderAttribute 接口：返回当前角色的目标旋转方向
 	virtual FVector GetTargetRotationDirection_Implementation() const override;
@@ -125,6 +130,9 @@ public:
 
 	//	实现 设置移动组件的移动速度
 	virtual void SetMovementSpeed_Implementation(const float Value) override;
+
+	// 实现 IIHolderAttribute 接口：获取当前移动方向
+	virtual EMoveDirection GetMoveDirection_Implementation() const override;
 
 private:
 };
