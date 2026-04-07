@@ -9,104 +9,104 @@
 UENUM(BlueprintType)
 enum class EActorRotaType : uint8
 {
-	// 旋转状态
-	Rotating = 0 UMETA(DisplayName = "Rotating"),
+    // 旋转状态
+    Rotating = 0 UMETA(DisplayName = "Rotating"),
 
-	// 注视状态
-	Gazing = 1 UMETA(DisplayName = "Gazing")
+    // 注视状态
+    Gazing = 1 UMETA(DisplayName = "Gazing")
 };
 
 // 角色移动状态枚举
 UENUM(BlueprintType)
 enum class EMoveState : uint8
 {
-	// 行走状态
-	Walking = 0 UMETA(DisplayName = "Walking"),
+    // 行走状态
+    Walking = 0 UMETA(DisplayName = "Walking"),
 
-	// 奔跑状态
-	Running = 1 UMETA(DisplayName = "Running")
+    // 奔跑状态
+    Running = 1 UMETA(DisplayName = "Running")
 };
 
 // 角色行为枚举
 UENUM(BlueprintType)
 enum class ECharacterBehavior : uint8
 {
-	// 闲置
-	Idle = 0 UMETA(DisplayName = "Idle"),
+    // 闲置
+    Idle = 0 UMETA(DisplayName = "Idle"),
 
-	// 移动
-	Moving = 1 UMETA(DisplayName = "Moving"),
+    // 移动
+    Moving = 1 UMETA(DisplayName = "Moving"),
 
-	// 死亡
-	Death = 2 UMETA(DisplayName = "Death"),
+    // 死亡
+    Death = 2 UMETA(DisplayName = "Death"),
 
-	// 跳跃
-	Jump = 3 UMETA(DisplayName = "Jump"),
+    // 跳跃
+    Jump = 3 UMETA(DisplayName = "Jump"),
 
-	// 受击
-	Hit = 4 UMETA(DisplayName = "Hit"),
+    // 受击
+    Hit = 4 UMETA(DisplayName = "Hit"),
 
-	// 防御
-	Defense = 5 UMETA(DisplayName = "Defense"),
+    // 防御
+    Defense = 5 UMETA(DisplayName = "Defense"),
 
-	// 攻击
-	Attack = 6 UMETA(DisplayName = "Attack")
+    // 攻击
+    Attack = 6 UMETA(DisplayName = "Attack")
 };
 
 // 角色状态枚举
 UENUM(BlueprintType)
 enum class ECombatState : uint8
 {
-	// 闲置
-	Idle = 0 UMETA(DisplayName = "Idle"),
+    // 闲置
+    Idle = 0 UMETA(DisplayName = "Idle"),
 
-	// 战斗
-	Combat = 1 UMETA(DisplayName = "Combat")
+    // 战斗
+    Combat = 1 UMETA(DisplayName = "Combat")
 };
 
 // 战斗类型枚举
 UENUM(BlueprintType)
 enum class ECombatType : uint8
 {
-	// 拳击
-	Boxing = 0 UMETA(DisplayName = "Boxing"),
+    // 拳击
+    Boxing = 0 UMETA(DisplayName = "Boxing"),
 
-	// 单手剑
-	OneHandedSword = 1 UMETA(DisplayName = "OneHandedSword"),
+    // 单手剑
+    OneHandedSword = 1 UMETA(DisplayName = "OneHandedSword"),
 
-	// 单手刀
-	OneHandedSaber = 2 UMETA(DisplayName = "OneHandedSaber"),
+    // 单手刀
+    OneHandedSaber = 2 UMETA(DisplayName = "OneHandedSaber"),
 
-	// 长棍
-	LongStaff = 3 UMETA(DisplayName = "LongStaff")
+    // 长棍
+    LongStaff = 3 UMETA(DisplayName = "LongStaff")
 };
 
 // 角色类型枚举
 UENUM(BlueprintType)
 enum class ECharacterType : uint8
 {
-	// 主角
-	Player = 0 UMETA(DisplayName = "Player"),
+    // 主角
+    Player = 0 UMETA(DisplayName = "Player"),
 
-	// NPC
-	NPC = 1 UMETA(DisplayName = "NPC")
+    // NPC
+    NPC = 1 UMETA(DisplayName = "NPC")
 };
 
 // 移动方向枚举
 UENUM(BlueprintType)
 enum class EMoveDirection : uint8
 {
-	// 前
-	Forward = 0 UMETA(DisplayName = "Forward"),
+    // 前
+    Forward = 0 UMETA(DisplayName = "Forward"),
 
-	// 后
-	Backward = 1 UMETA(DisplayName = "Backward"),
+    // 后
+    Backward = 1 UMETA(DisplayName = "Backward"),
 
-	// 左
-	Left = 2 UMETA(DisplayName = "Left"),
+    // 左
+    Left = 2 UMETA(DisplayName = "Left"),
 
-	// 右
-	Right = 3 UMETA(DisplayName = "Right")
+    // 右
+    Right = 3 UMETA(DisplayName = "Right")
 };
 
 UENUM(BlueprintType)
@@ -114,9 +114,27 @@ enum class ETopState : uint8
 {
     //存活
     Living = 0 UMETA(DisplayName = "Living"),
-    
+
     //死亡
     Dead = 1 UMETA(DisplayName = "Dead")
+};
+
+// 拳击技能枚举
+UENUM(BlueprintType)
+enum class EBoxingSkill : uint8
+{
+    // 拳击1
+    Boxing1 = 0 UMETA(DisplayName = "Boxing1"),
+
+    // 拳击2
+    Boxing2 = 1 UMETA(DisplayName = "Boxing2"),
+
+    // 拳击3
+    Boxing3 = 2 UMETA(DisplayName = "Boxing3"),
+
+    // 拳击4
+    Boxing4 = 3 UMETA(DisplayName = "Boxing4"),
+
 };
 
 /**
@@ -125,6 +143,6 @@ enum class ETopState : uint8
 class BTD_API GameEnums
 {
 public:
-	GameEnums();
-	~GameEnums();
+    GameEnums();
+    ~GameEnums();
 };

@@ -7,7 +7,7 @@
 #include "Interface/IHolderStateMachine.h"
 enum class EActorRotaType : uint8;
 /**
- * 
+ *
  */
 class BTD_API FRotationModule
 {

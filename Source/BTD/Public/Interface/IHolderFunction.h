@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "GameEnums.h"
+#include "CharacterDataStruct.h"
 #include "IHolderFunction.generated.h"
 
 // This class does not need to be modified.
@@ -15,7 +16,7 @@ class UIHolderFunction : public UInterface
 };
 
 /**
- * 
+ *
  */
 class BTD_API IIHolderFunction
 {
@@ -28,10 +29,14 @@ public:
     void SetMovementSpeed(const float Value);
 
     // 激活旋转状态：切换为普通旋转模式
-    UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Interface|Function")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Function")
     void ActivateRotating();
 
     // 激活注视状态：切换为持续朝向目标的旋转模式
-    UFUNCTION(BlueprintNativeEvent,BlueprintCallable, Category = "Interface|Function")
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Function")
     void ActiveGazing();
+
+    // 添加新的行动指令，蓝图可调用
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interface|Function")
+    void AddInstruction(const FLightSkillInstruction& InSkillInstruction);
 };

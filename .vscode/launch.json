@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "UE5 Debug",
+            "type": "cppvsdbg",          // Windows 用 MSVC 调试器
+            "request": "launch",
+            "program": "D:/UE5.1/UE_5.7/Engine/Binaries/Win64/UnrealEditor.exe",
+            "args": ["D:/Github/ZYCML/BTD.uproject"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false
+        }
+    ]
+}

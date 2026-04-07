@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -16,6 +16,7 @@ class FRotationModule;
 class FMovingModule;
 class DataModule;
 class FStateMachineModule;
+class FInstructionCacheModule;
 
 UCLASS()
 class BTD_API ABaseCharacter : public ACharacter, public IIHolderAttribute, public IIHolderFunction
@@ -38,6 +39,8 @@ private:
 	FMovingModule* MovingModule;
 	//旋转模块
 	FRotationModule* RotationModule;
+	// 行动指令缓存模块
+	FInstructionCacheModule* InstructionCacheModule;
 
 	// 当前移动速度
 	float CurrentMoveSpeed;
@@ -75,6 +78,9 @@ public:
 
 	// 实现 IIHolderFunction 接口：激活旋转状态
 	virtual void ActivateRotating_Implementation() override;
+
+	// 实现 IIHolderFunction 接口：添加新的行动指令
+	virtual void AddInstruction_Implementation(const FLightSkillInstruction& InSkillInstruction) override;
 
 	// 实现 IIHolderFunction 接口：激活注视状态
 	virtual void ActiveGazing_Implementation() override;

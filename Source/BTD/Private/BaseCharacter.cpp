@@ -7,6 +7,7 @@
 #include "Module/FRotationModule.h"
 #include "Module/DataModule.h"
 #include "Module/FStateMachineModule.h"
+#include "Module/InstructionCacheModule/FInstructionCacheModule.h"
 #include "StateMachine/FActionsState.h"
 #include "StateMachine/FCombatState.h"
 #include "StateMachine/FMovingState.h"
@@ -35,6 +36,8 @@ ABaseCharacter::ABaseCharacter()
 	RotationModule = new FRotationModule(this, StateMachineModule);
 	// 初始化 MovingModule，传入自身作为 IIHolderAttribute 接口
 	MovingModule = new FMovingModule(this, StateMachineModule);
+	// 初始化行动指令缓存模块
+	InstructionCacheModule = new FInstructionCacheModule();
 }
 
 
@@ -50,6 +53,8 @@ ABaseCharacter::~ABaseCharacter()
 	MovingModule->UnregisterMoveDirectionChanged(MoveDirectionChangedHandle);
 	delete MovingModule;
 	MovingModule = nullptr;
+	delete InstructionCacheModule;
+	InstructionCacheModule = nullptr;
 }
 
 
@@ -91,6 +96,8 @@ void ABaseCharacter::Tick(float DeltaTime)
 	RotationModule->RotationModuleTick();
 	// 状态机模块更新
 	StateMachineModule->Tick(DeltaTime);
+	// 行动指令缓存模块更新
+	InstructionCacheModule->Tick(GetWorld()->GetTimeSeconds());
 }
 
 /*SetupPlayerInputComponent 是 UE 的 APawn 基类提供的虚函数，专门用于绑定玩家输入。
@@ -130,6 +137,11 @@ void ABaseCharacter::SetTargetActor(ABaseCharacter* InTargetActor)
 }
 
 /*移动流程 结束*/
+//这儿是添加新的指令 到队列中去
+void ABaseCharacter::AddInstruction_Implementation(const FLightSkillInstruction& InSkillInstruction)
+{
+	InstructionCacheModule->InputInstruction(InSkillInstruction, GetWorld()->GetTimeSeconds());
+}
 
 /*蓝图调用 转向相关 start */
 void ABaseCharacter::ActivateRotating_Implementation()

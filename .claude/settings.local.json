@@ -10,7 +10,9 @@
       "Bash(Property\"，:*)",
       "Bash(git add Source/BTD/Private/BaseCharacter.cpp Source/BTD/Public/BaseCharacter.h)",
       "Bash(git add Source/BTD/Private/BaseCharacter.cpp Source/BTD/Public/BaseCharacter.h Content/CoreSystem/Animation/)",
-      "Bash(git -C \"h:/Github\" log --all --full-history -- \"Source/BTD/Public/IHoldersAttribute.h\" \"Source/BTD/Private/IHoldersAttribute.cpp\")"
+      "Bash(git -C \"h:/Github\" log --all --full-history -- \"Source/BTD/Public/IHoldersAttribute.h\" \"Source/BTD/Private/IHoldersAttribute.cpp\")",
+      "Bash(find d:/Github/ZYCML -maxdepth 2 -type f \\\\\\(-name *.md -o -name .env* -o -name *.ini -o -name *.config \\\\\\))",
+      "Bash(\"D:/UE5.1/UE_5.7/Engine/Build/BatchFiles/Build.bat\" BTDEditor Win64 Development -Project=\"D:/Github/ZYCML/BTD.uproject\" -WaitMutex -architecture=x64)"
     ]
   }
 }
